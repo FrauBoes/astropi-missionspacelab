@@ -9,15 +9,11 @@ import os
 
 logfile("events.log")
 
-max_runtime = timedelta(minutes=8)
+max_runtime = timedelta(minutes=9)
 start_time = datetime.now()
-
-estimates = list()
 
 project_dir = os.getcwd()
 image_dir = project_dir + "/data/images/"
-
-print(image_dir)
 
 if not os.path.exists(image_dir):
     os.makedirs(image_dir)
@@ -26,6 +22,7 @@ logger.info(f"image_dir set to: {image_dir}.")
 take_image_sequence(image_dir)
 logger.info(f"take_photo_sequence completed.")
 
+estimates_list = list()
 image_files = [f for f in os.listdir(image_dir)]
 
 now_time = datetime.now()
@@ -43,10 +40,13 @@ for img_1, img_2 in itertools.combinations(image_files, 2):
         continue
 
     estimate = get_speed_estimate(image_1_path, image_2_path)
+    estimates_list.append(estimate)
     logger.info(f"get_speed_estimate for {image_1_path}, {image_2_path} completed. Estimate: {estimate}.")
-    write_estimate(estimates, estimate)
 
-if len(estimates) > 0:
-    print(f"Estimate: {sum(estimates) / len(estimates)}")
+    now_time = datetime.now()
+
+if len(estimates_list) > 0:
+    write_estimate2(estimates_list)
+    logger.info("estimate written to result.txt.")
 
 logger.info(f"Runtime: {get_datetime_difference_in_minutes(start_time, now_time)} minutes. Program finished.")
