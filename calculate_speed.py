@@ -3,6 +3,11 @@ from exif import Image
 import cv2
 import math
 
+# Resolution of HQ camera is 4056 x 3040
+GSD_HQ_Camera = 12648
+# Resolution of replay tool camera is 1412 × 1412
+GSD_Replay_Tool_Camera = 46633
+
 def get_time(image):
     """
     Returns the datetime of the given image.
@@ -96,4 +101,4 @@ def get_speed_estimate(image_1, image_2):
     matches = calculate_matches(descriptors_1, descriptors_2)
     coordinates_1, coordinates_2 = find_matching_coordinates(keypoints_1, keypoints_2, matches)
     average_feature_distance = calculate_mean_distance(coordinates_1, coordinates_2)
-    return calculate_speed_in_kmps(average_feature_distance, 12648, time_difference) 
+    return calculate_speed_in_kmps(average_feature_distance, GSD_Replay_Tool_Camera, time_difference) 

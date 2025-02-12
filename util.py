@@ -7,6 +7,9 @@ def take_image_sequence(photo_dir):
     Accepts a path to the destination directory and returns nothing.
     """
     cam = Camera()
+    # Set resolution for HQ camera module, 
+    # as per https://www.raspberrypi.com/documentation/accessories/camera.html#hardware-specification
+    # cam.still_size = (4056, 3040)
     cam.capture_sequence(photo_dir + "image.jpg", num_images=42, interval=5)
 
 def write_estimate(estimates):
